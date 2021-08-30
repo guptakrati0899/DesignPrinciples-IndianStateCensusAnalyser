@@ -13,6 +13,7 @@ public class StateAnalyserTest {
     private static final String INDIAN_CSV_STATE_PATH = "src\\test\\resources\\IndianStateCode.csv";
     private static final String WRONG_CSV_STATE_PATH = "src\\main\\resources\\IndianStateCode.csv";
     private static final String STATE_CODE_CSV_WRONG_DELIMITER = "src\\main\\resources\\IndiaStateCodeDataWrongDelimiter.csv";
+    private static final String STATE_CODE_CSV_MISSING = "src\\test\\resources\\IndiaStateCodeDataMissingHeader.csv";
 
     @Test
     public void givenIndianCensusCSVFile_ReturnsCorrectRecords() {
@@ -77,7 +78,7 @@ public class StateAnalyserTest {
     public void givenWrongDelimiter_InIndiaCensusData_ShouldReturnCustomExceptionType() {
         try {
             StateCensusAnalyser censusAnalyser = new StateCensusAnalyser();
-            int numOfRecords = censusAnalyser.loadIndiaCensusData(INDIAN_CENSUS_CSV_WRONG_DELIMITER);
+            censusAnalyser.loadIndiaCensusData(INDIAN_CENSUS_CSV_WRONG_DELIMITER);
         } catch (CensusAnalyserException e) {
             Assertions.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         } catch (CSVBuilderException e) {
@@ -144,11 +145,26 @@ public class StateAnalyserTest {
             e.printStackTrace();
         }
     }
+
     @Test
     public void givenWrongDelimiter_InIndiaStateCodeData_ShouldReturnCustomException() {
         try {
             StateCensusAnalyser censusAnalyser = new StateCensusAnalyser();
             censusAnalyser.loadIndiaCensusData(STATE_CODE_CSV_WRONG_DELIMITER);
+        } catch (CensusAnalyserException e) {
+            Assertions.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenMissingHeader_InIndiaStateCodeData_ShouldReturnCustomException() {
+        try {
+            StateCensusAnalyser censusAnalyser = new StateCensusAnalyser();
+            censusAnalyser.loadIndiaCensusData(STATE_CODE_CSV_MISSING);
         } catch (CensusAnalyserException e) {
             Assertions.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         } catch (CSVBuilderException e) {
