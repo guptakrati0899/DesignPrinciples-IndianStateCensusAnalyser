@@ -7,13 +7,14 @@ import org.junit.rules.ExpectedException;
 import java.io.IOException;
 
 public class StateAnalyserTest {
-    private static final String INDIA_CENSUS_CSV_FILE_PATH = "C:\\Users\\Asus\\IdeaProjects\\IndianStateCensusAnalyser\\src\\test\\resources\\IndianStateCensusData.csv";
+    private static final String INDIA_CENSUS_CSV_FILE_PATH = "src\\test\\resources\\IndianStateCensusData.csv";
     private static final String WRONG_CSV_FILE_PATH = "src\\main\\resources\\IndianStateCensusData.csv";
     private static final String INDIAN_CENSUS_CSV_WRONG_DELIMITER = "src\\main\\resources\\IndiaStateCensusDataWrongDelimiter.csv";
-    private static final String INDIAN_CENSUS_CSV_MISSING = "./src/test/resources/IndiaStateCensusDataMissingHeader.csv";
+    private static final String INDIAN_CENSUS_CSV_MISSING = "src\\test\\resources\\IndiaStateCensusDataMissingHeader.csv";
+    private static final String INDIAN_CSV_STATE_PATH = "src\\test\\resources\\IndianStateCode.csv";
 
     @Test
-    public void givenIndianCensusCSVFileReturnsCorrectRecords() {
+    public void givenIndianCensusCSVFile_ReturnsCorrectRecords() {
         try {
             StateCensusAnalyser censusAnalyser = new StateCensusAnalyser();
             int numOfRecords = censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
@@ -92,6 +93,20 @@ public class StateAnalyserTest {
             censusAnalyser.loadIndiaCensusData(INDIAN_CENSUS_CSV_MISSING);
         } catch (CensusAnalyserException e) {
             Assertions.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenIndianStateCodeCSVFile_ReturnsCorrectRecords() {
+        try {
+            StateCensusAnalyser censusAnalyser = new StateCensusAnalyser();
+            int numOfStateCode = censusAnalyser.loadIndiaCensusData(INDIAN_CSV_STATE_PATH);
+            Assertions.assertEquals(37, numOfStateCode);
+        } catch (CensusAnalyserException e) {
         } catch (CSVBuilderException e) {
             e.printStackTrace();
         } catch (IOException e) {
