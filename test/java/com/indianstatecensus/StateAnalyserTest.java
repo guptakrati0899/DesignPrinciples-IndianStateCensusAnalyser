@@ -1,5 +1,4 @@
 package com.indianstatecensus;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
@@ -13,6 +12,7 @@ public class StateAnalyserTest {
     private static final String INDIAN_CENSUS_CSV_MISSING = "src\\test\\resources\\IndiaStateCensusDataMissingHeader.csv";
     private static final String INDIAN_CSV_STATE_PATH = "src\\test\\resources\\IndianStateCode.csv";
     private static final String WRONG_CSV_STATE_PATH = "src\\main\\resources\\IndianStateCode.csv";
+    private static final String STATE_CODE_CSV_WRONG_DELIMITER = "src\\main\\resources\\IndiaStateCodeDataWrongDelimiter.csv";
 
     @Test
     public void givenIndianCensusCSVFile_ReturnsCorrectRecords() {
@@ -122,6 +122,20 @@ public class StateAnalyserTest {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CensusAnalyserException.class);
             censusAnalyser.loadIndiaCensusData(WRONG_CSV_STATE_PATH);
+        } catch (CensusAnalyserException e) {
+            Assertions.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenEmptyStateCodeCsvFile_ShouldReturnCustomExceptionType() {
+        try {
+            StateCensusAnalyser censusAnalyser = new StateCensusAnalyser();
+            censusAnalyser.loadIndiaCensusData(STATE_CODE_CSV_WRONG_DELIMITER);
         } catch (CensusAnalyserException e) {
             Assertions.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         } catch (CSVBuilderException e) {
