@@ -7,7 +7,7 @@ import org.junit.rules.ExpectedException;
 import java.io.IOException;
 
 public class StateAnalyserTest {
-    private static final String INDIA_CENSUS_CSV_FILE_PATH = "src\\test\\resources\\IndianStateCensusData.csv";
+    private static final String INDIA_CENSUS_CSV_FILE_PATH = "C:\\Users\\Asus\\IdeaProjects\\IndianStateCensusAnalyser\\src\\test\\resources\\IndianStateCensusData.csv";
     private static final String WRONG_CSV_FILE_PATH = "src\\main\\resources\\IndianStateCensusData.csv";
     private static final String INDIAN_CENSUS_CSV_WRONG_DELIMITER = "src\\main\\resources\\IndiaStateCensusDataWrongDelimiter.csv";
     private static final String INDIAN_CENSUS_CSV_MISSING = "./src/test/resources/IndiaStateCensusDataMissingHeader.csv";
