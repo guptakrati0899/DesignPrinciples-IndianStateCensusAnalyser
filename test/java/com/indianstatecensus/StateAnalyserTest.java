@@ -144,4 +144,17 @@ public class StateAnalyserTest {
             e.printStackTrace();
         }
     }
+    @Test
+    public void givenWrongDelimiter_InIndiaStateCodeData_ShouldReturnCustomException() {
+        try {
+            StateCensusAnalyser censusAnalyser = new StateCensusAnalyser();
+            censusAnalyser.loadIndiaCensusData(STATE_CODE_CSV_WRONG_DELIMITER);
+        } catch (CensusAnalyserException e) {
+            Assertions.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
